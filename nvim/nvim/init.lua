@@ -1,11 +1,21 @@
+vim.g.mapleader = " "
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+function map(new_cmd, old_cmd)
+    vim.keymap.set("n", new_cmd, old_cmd, { noremap = true, silent = true })
+end
+
 -- pane movement
-vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true }) -- left
-vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true }) -- down
-vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true }) -- up
-vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true }) -- right
+map("<leader>h", "<C-w>h") -- left
+map("<leader>j", "<C-w>j") -- down
+map("<leader>k", "<C-w>k") -- up
+map("<leader>l", "<C-w>l") -- right
+
+-- window creation
+map("<leader>-", "<C-w>s")
+map("<leader>|", "<C-w>v")
 
 -- Set a tab to 4 spaces
 vim.o.tabstop = 4       -- How many spaces a tab counts for

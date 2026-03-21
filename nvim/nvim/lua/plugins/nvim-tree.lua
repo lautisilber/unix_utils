@@ -23,6 +23,6 @@ return {
     })
   end,
   keys = {
-    { "<C-f>", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true }
+    { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true }
   },
 }
