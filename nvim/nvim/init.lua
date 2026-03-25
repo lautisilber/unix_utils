@@ -3,6 +3,9 @@ vim.g.mapleader = " "
 vim.opt.number = true
 vim.opt.relativenumber = true
 
+vim.opt.termguicolors = true
+vim.cmd("syntax on") -- ensure syntax on
+
 function map(new_cmd, old_cmd)
     vim.keymap.set("n", new_cmd, old_cmd, { noremap = true, silent = true })
 end
