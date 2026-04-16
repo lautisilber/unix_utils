@@ -6,6 +6,8 @@ vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.cmd("syntax on") -- ensure syntax on
 
+vim.opt.colorcolumn = "80"
+
 require("special_chars")
 
 function map(new_cmd, old_cmd)
