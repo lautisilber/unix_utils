@@ -1,5 +1,5 @@
 Install bat manually with
 
 ```bash
-cargo install --path . --locked --root "$HOME/local/nvim install"
+cargo install --path . --locked --root "$HOME/local/bat install"
 ```
