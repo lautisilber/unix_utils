@@ -10,6 +10,7 @@ BINDIR  = $(PREFIX)/bin
 BUILD   = build
 
 .PHONY: all test install uninstall clean
+.SILENT:
 
 all: $(BUILD)/ts
 
