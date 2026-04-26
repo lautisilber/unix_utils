@@ -2,7 +2,7 @@ You can add the following lines to your ```bashrc``` or ```bash_profile``` files
 
 ```bash
 # code-server
-alias code-server-install='curl -fsSL https://code-server.dev/install.sh | sh -s -- --method standalone'
+alias code-server-install='curl -fsSL https://code-server.dev/install.sh | sh -s -- --method standalone --prefix ~/local'
 alias code-server-show-password="cat $HOME/.config/code-server/config.yaml"
 PATH="$HOME/.local/bin:$PATH"
 ```
