@@ -17,7 +17,7 @@ To install the LSPs do the following
 
 1. ```clangd``` and optional ```clang-tidy```
 
-Find a release of ```clangd``` in [this link](https://releases.llvm.org/download.html) and install it in your sistem, making shure that the ```clangd``` executable is in your ```PATH``` (adding the line ```PATH="$PATH:<path_to_the_clangd_directory>"``` to your bashrc). You can similarly add ```clang-tidy``` to add its functionality.
+Find a release of ```clangd``` in [this link](https://releases.llvm.org/download.html) and install it in your sistem, making shure that the ```clangd``` executable is in your ```PATH``` (adding the line ```PATH="$PATH:<path_to_the_clangd_directory>"``` to your bashrc). You can similarly add ```clang-tidy``` to add its functionality. (Note: the releases link will offer a link to a releases page in github)
 
 2. ```pyright```
 
