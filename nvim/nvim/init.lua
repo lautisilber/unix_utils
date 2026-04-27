@@ -31,6 +31,13 @@ vim.o.shiftwidth = 4    -- Number of spaces used for auto-indent
 vim.o.expandtab = true  -- Use spaces instead of actual tab characters
 
 -- add lsp
+-- add node to nvim path
+local node = vim.fn.trim(vim.fn.system("which node"))
+if node ~= "" then
+    local node_bin = vim.fn.trim(vim.fn.system("dirname " .. node))
+    vim.env.PATH = node_bin .. ":" .. vim.env.PATH
+end
 require("lsp")
 
 require("config.lazy")
+
