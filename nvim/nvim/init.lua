@@ -30,4 +30,7 @@ vim.o.softtabstop = 4   -- How many spaces a Tab key inserts in insert mode
 vim.o.shiftwidth = 4    -- Number of spaces used for auto-indent
 vim.o.expandtab = true  -- Use spaces instead of actual tab characters
 
+-- add lsp
+require("lsp")
+
 require("config.lazy")
