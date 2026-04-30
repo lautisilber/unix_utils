@@ -49,33 +49,42 @@ end
 vim.lsp.enable(servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(event)
-    local map = function(keys, func, desc)
-      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-    end
+    callback = function(event)
+        local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+        end
 
-    map("gd",         vim.lsp.buf.definition,  "Go to Definition")
-    map("gr",         vim.lsp.buf.references,   "Go to References")
-    map("K",          vim.lsp.buf.hover,        "Hover Docs")
-    map("<leader>rn", vim.lsp.buf.rename,       "Rename")
-    map("<leader>ca", vim.lsp.buf.code_action,  "Code Action")
-  end,
+        local open_float = function()
+            vim.diagnostic.open_float(nil, { focus = false })
+        end
+
+        map("gd",         vim.lsp.buf.definition,  "Go to Definition")
+        map("gr",         vim.lsp.buf.references,  "Go to References")
+        map("K",          vim.lsp.buf.hover,       "Hover Docs")
+        map("ge",         open_float,              "Show diagnostic information")
+        map("<leader>rn", vim.lsp.buf.rename,      "Rename")
+        --map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+
+        vim.lsp.completion.enable(true, event.data.client_id, event.buf, {
+            autotrigger = true, --  When true, completion triggers automatically based on the server's triggerCharacters
+        })
+
+
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = open_float,
+        })
+    end,
 })
 
 vim.diagnostic.config({
     virtual_text = true,       -- shows error inline at end of line
     signs = true,              -- keeps the E on the gutter
     underline = true,          -- underlines the problematic code
-    update_in_insert = false,  -- don't show errors while typing
+    update_in_insert = true,   -- don't show errors while typing
     float = {
         border = "rounded",
-        source = true,           -- shows "pyright" or "clangd" as the source
+        source = true,         -- shows the language server that caused the error
     },
 })
 
-vim.api.nvim_create_autocmd("CursorHold", {
-    callback = function()
-        vim.diagnostic.open_float(nil, { focus = false })
-    end,
-})
 
