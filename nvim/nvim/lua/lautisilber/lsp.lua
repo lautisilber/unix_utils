@@ -1,3 +1,12 @@
+require("utils")
+
+-- add node to nvim path
+local node = vim.fn.trim(vim.fn.system("which node"))
+if node ~= "" then
+    local node_bin = vim.fn.trim(vim.fn.system("dirname " .. node))
+    vim.env.PATH = node_bin .. ":" .. vim.env.PATH
+end
+
 local servers = {}
 
 if vim.fn.executable("clangd") == 1 then
@@ -50,20 +59,16 @@ vim.lsp.enable(servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(event)
-        local map = function(keys, func, desc)
-            vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-        end
-
         local open_float = function()
             vim.diagnostic.open_float(nil, { focus = false })
         end
 
-        map("gd",         vim.lsp.buf.definition,  "Go to Definition")
-        map("gr",         vim.lsp.buf.references,  "Go to References")
-        map("K",          vim.lsp.buf.hover,       "Hover Docs")
-        map("ge",         open_float,              "Show diagnostic information")
-        map("<leader>rn", vim.lsp.buf.rename,      "Rename")
-        --map("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+        nmap("gd",         vim.lsp.buf.definition,  "Go to Definition")
+        nmap("gr",         vim.lsp.buf.references,  "Go to References")
+        nmap("K",          vim.lsp.buf.hover,       "Hover Docs")
+        nmap("ge",         open_float,              "Show diagnostic information")
+        nmap("<leader>rn", vim.lsp.buf.rename,      "Rename")
+        --nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 
         vim.lsp.completion.enable(true, event.data.client_id, event.buf, {
             autotrigger = true, --  When true, completion triggers automatically based on the server's triggerCharacters

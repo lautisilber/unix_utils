@@ -1,3 +1,12 @@
+vim.api.nvim_create_user_command("HarpoonDeleteCache", function()
+    local path = vim.fn.expand("~/.local/share/nvim/harpoon/")
+    local files = vim.fn.glob(path .. "*.json", false, true)
+    for _, file in ipairs(files) do
+        vim.fn.delete(file)
+    end
+    vim.notify("Harpoon cache cleared")
+end, {})
+
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",

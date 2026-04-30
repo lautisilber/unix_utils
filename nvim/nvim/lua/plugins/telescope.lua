@@ -1,3 +1,8 @@
+vim.api.nvim_create_user_command("TelescopeDeleteHistory", function()
+    vim.fn.delete(vim.fn.expand("~/.local/share/nvim/telescope_history"))
+    vim.notify("Telescope history deleted")
+end, {})
+
 return {
     'nvim-telescope/telescope.nvim',
     version = '*',
