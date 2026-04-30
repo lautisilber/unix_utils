@@ -13,6 +13,12 @@ make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$HOME/local/nvim"
 make install
 ```
 
+## Telescope
+
+To be able to use the live grep functionality of ```Telescope``` install ```ripgrep``` on your system. Installation instructions can be found [here](https://github.com/BurntSushi/ripgrep#installation)
+
+## LSPs
+
 To install the LSPs do the following
 
 1. ```clangd``` and optional ```clang-tidy```
