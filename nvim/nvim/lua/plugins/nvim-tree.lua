@@ -3,26 +3,46 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 return {
-  "nvim-tree/nvim-tree.lua",
-  version = "*",
-  lazy = false,
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
-  config = function()
-    require("nvim-tree").setup {}
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+        "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+        require("nvim-tree").setup {}
 
-    -- Automatically close Neovim if NvimTree is the last window
-    vim.api.nvim_create_autocmd("BufEnter", {
-        callback = function()
-            local wins = vim.api.nvim_tabpage_list_wins(0)
-            if #wins == 1 and vim.bo[vim.api.nvim_win_get_buf(wins[1])].filetype == "NvimTree" then
-                vim.cmd("quit")
-            end
-        end,
-    })
-  end,
-  keys = {
-    { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true }
-  },
+        local has_opened_file = false
+
+        -- Automatically close Neovim if NvimTree is the last window
+        vim.api.nvim_create_autocmd("BufEnter", {
+            callback = function()
+                -- track if any real file has ever been opened
+                if vim.bo.filetype ~= "NvimTree" and vim.bo.buftype == "" then
+                    has_opened_file = true
+                end
+
+                if not has_opened_file then return end
+
+                local wins = vim.api.nvim_tabpage_list_wins(0)
+                if #wins == 1 and vim.bo[vim.api.nvim_win_get_buf(wins[1])].filetype == "NvimTree" then
+                    vim.cmd("quit")
+                end
+            end,
+        })
+
+        -- Open nvim-tree when starting with a directory
+        vim.api.nvim_create_autocmd("VimEnter", {
+            callback = function(event)
+                local stat = vim.uv.fs_stat(event.file)
+                if stat and stat.type == "directory" then
+                    require("nvim-tree.api").tree.open()
+                end
+            end,
+        })
+    end,
+    keys = {
+        { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true }
+    },
 }
+
