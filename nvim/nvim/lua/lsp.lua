@@ -73,6 +73,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.api.nvim_create_autocmd("CursorHold", {
             callback = open_float,
         })
+
+        vim.keymap.set("i", "<Tab>", function()
+            if vim.fn.pumvisible() == 1 then
+                return "<C-y>"  -- confirm selected completion
+            end
+            return "<Tab>"      -- otherwise insert a real tab
+        end, { expr = true, buffer = event.buf })
+
+        vim.keymap.set("i", "<Esc>", function()
+            if vim.fn.pumvisible() == 1 then
+                return "<C-e>"  -- dismiss completion menu
+            end
+            return "<Esc>"
+        end, { expr = true, buffer = event.buf })
     end,
 })
 
@@ -87,4 +101,4 @@ vim.diagnostic.config({
     },
 })
 
-
+vim.o.completeopt = "menu,menuone,noinsert" -- noinsert prevents nvim from automatically inserting the first match
