@@ -1,4 +1,4 @@
-require("utils")
+require("lautisilber.utils")
 
 -- add node to nvim path
 local node = vim.fn.trim(vim.fn.system("which node"))
@@ -63,12 +63,27 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.diagnostic.open_float(nil, { focus = false })
         end
 
-        nmap("gd",         vim.lsp.buf.definition,  "Go to Definition")
-        nmap("gr",         vim.lsp.buf.references,  "Go to References")
-        nmap("K",          vim.lsp.buf.hover,       "Hover Docs")
-        nmap("ge",         open_float,              "Show diagnostic information")
-        nmap("<leader>rn", vim.lsp.buf.rename,      "Rename")
+        nmap("gd", vim.lsp.buf.definition, "Go to Definition")
+        nmap("gr", vim.lsp.buf.references, "Go to References")
+        nmap("K", vim.lsp.buf.hover, "Hover Docs")
+        nmap("ge", open_float, "Show diagnostic information")
+        nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
         --nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+
+
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if client then
+            local chars = client.server_capabilities.completionProvider.triggerCharacters or {}
+            -- add all lowercase, uppercase and underscore as trigger characters
+            for byte = string.byte("a"), string.byte("z") do
+                table.insert(chars, string.char(byte))
+            end
+            for byte = string.byte("A"), string.byte("Z") do
+                table.insert(chars, string.char(byte))
+            end
+            table.insert(chars, "_")
+            client.server_capabilities.completionProvider.triggerCharacters = chars
+        end
 
         vim.lsp.completion.enable(true, event.data.client_id, event.buf, {
             autotrigger = true, --  When true, completion triggers automatically based on the server's triggerCharacters
@@ -79,19 +94,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
             callback = open_float,
         })
 
-        vim.keymap.set("i", "<Tab>", function()
+        imap("<Tab>", function()
             if vim.fn.pumvisible() == 1 then
                 return "<C-y>"  -- confirm selected completion
             end
             return "<Tab>"      -- otherwise insert a real tab
-        end, { expr = true, buffer = event.buf })
-
-        vim.keymap.set("i", "<Esc>", function()
+        end, "Choose code suggestion", { expr = true, buffer = event.buf })
+        imap("<Esc>", function()
             if vim.fn.pumvisible() == 1 then
                 return "<C-e>"  -- dismiss completion menu
             end
             return "<Esc>"
-        end, { expr = true, buffer = event.buf })
+        end, "Dismiss code suggestions", { expr = true, buffer = event.buf })
     end,
 })
 

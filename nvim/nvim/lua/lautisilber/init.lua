@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
 
-require("set")
-require("remap")
-require("Special_chars")
-require("lsp")
+require("lautisilber.set")
+require("lautisilber.remap")
+require("lautisilber.special_chars")
+require("lautisilber.lsp")
