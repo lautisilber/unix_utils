@@ -1,11 +1,20 @@
 require("lautisilber.utils")
 
 local servers = {}
+local filetypes_with_lsp = {}
+
+local node = vim.fn.trim(vim.fn.system("which node"))
+if node ~= "" then
+    local node_bin = vim.fn.trim(vim.fn.system("dirname " .. node))
+    vim.env.PATH = node_bin .. ":" .. vim.env.PATH
+end
 
 if vim.fn.executable("clangd") == 1 then
+    local filetypes = { "c", "cpp", "objc", "objcpp" }
+    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "clangd")
     vim.lsp.config("clangd", {
-        filetypes = { "c", "cpp", "objc", "objcpp" },
+        filetypes = filetypes,
         cmd = {
             "clangd",
             -- "--background-index",       -- index project in the background. Note that this can add significant overhead. The cached index is stored in ~/.cache/clangd/
@@ -18,10 +27,12 @@ if vim.fn.executable("clangd") == 1 then
 end
 
 if vim.fn.executable("pyright-langserver") == 1 then
+    local filetypes = { "python" }
+    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "pyright")
     vim.lsp.config("pyright", {
         cmd = { "pyright-langserver", "--stdio" },
-        filetypes = { "python" },
+        filetypes = filetypes,
         settings = {
             python = {
                 analysis = {
@@ -36,10 +47,12 @@ if vim.fn.executable("pyright-langserver") == 1 then
 end
 
 if vim.fn.executable("bash-language-server") == 1 then
+    local filetypes = { "sh", "bash" }
+    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "bashls")
     vim.lsp.config("bashls", {
         cmd = { "bash-language-server", "start" },
-        filetypes = { "sh", "bash" },
+        filetypes = filetypes,
         settings = {
             bashIde = {
                 globPattern = "**/*@(.sh|.inc|.bash|.command)", -- file patterns to watch
@@ -49,10 +62,12 @@ if vim.fn.executable("bash-language-server") == 1 then
 end
 
 if vim.fn.executable("lua-language-server") == 1 then
+    local filetypes = { "lua" }
+    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "lua_ls")
     vim.lsp.config("lua_ls", {
         cmd = { "lua-language-server" },
-        filetypes = { "lua" },
+        filetypes = filetypes,
         root_markers = { ".git", ".luarc.json", ".luarc.jsonc" },
         settings = {
             Lua = {
@@ -75,10 +90,12 @@ if vim.fn.executable("lua-language-server") == 1 then
 end
 
 if vim.fn.executable("gopls") == 1 then
+    local filetypes = { "go", "gomod", "gowork", "gotmpl" }
+    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "gopls")
     vim.lsp.config("gopls", {
         cmd = { "gopls" },
-        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        filetypes = filetypes,
         root_markers = { "go.work", "go.mod", ".git" },
         settings = {
             gopls = {
@@ -93,6 +110,10 @@ if vim.fn.executable("gopls") == 1 then
     })
 end
 
+--@return string[]
+function EnabledLSPs()
+    return filetypes_with_lsp
+end
 
 vim.lsp.enable(servers)
 
@@ -102,12 +123,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.diagnostic.open_float(nil, { focus = false })
         end
 
-        nmap("gd", vim.lsp.buf.definition, "Go to Definition")
-        nmap("gr", vim.lsp.buf.references, "Go to References")
-        nmap("K", vim.lsp.buf.hover, "Hover Docs")
-        nmap("ge", open_float, "Show diagnostic information")
-        nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
-        --nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
+        Nmap("gd", vim.lsp.buf.definition, "Go to Definition")
+        Nmap("gr", vim.lsp.buf.references, "Go to References")
+        Nmap("K", vim.lsp.buf.hover, "Hover Docs")
+        Nmap("ge", open_float, "Show diagnostic information")
+        Nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
+        --Nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -133,13 +154,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
             callback = open_float,
         })
 
-        imap("<Tab>", function()
+        Imap("<Tab>", function()
             if vim.fn.pumvisible() == 1 then
                 return "<C-y>"  -- confirm selected completion
             end
             return "<Tab>"      -- otherwise insert a real tab
         end, "Choose code suggestion", { expr = true, buffer = event.buf })
-        imap("<Esc>", function()
+        Imap("<Esc>", function()
             if vim.fn.pumvisible() == 1 then
                 return "<C-e>"  -- dismiss completion menu
             end
