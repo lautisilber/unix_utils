@@ -23,7 +23,19 @@ To install the LSPs do the following
 
 1. ```clangd``` and optional ```clang-tidy```
 
-Find a release of ```clangd``` in [this link](https://releases.llvm.org/download.html) and install it in your sistem, making shure that the ```clangd``` executable is in your ```PATH``` (adding the line ```PATH="$PATH:<path_to_the_clangd_directory>"``` to your bashrc). You can similarly add ```clang-tidy``` to add its functionality. (Note: the releases link will offer a link to a releases page in github)
+You can install these packages with ```sudo apt install clangd clang-tidy``` or the alternative for ```apt``` in your system.
+
+If you can't install packages with a package manager then find a release of ```clangd``` in [this link](https://releases.llvm.org/download.html) and install it in your sistem, making shure that the ```clangd``` executable is in your ```PATH``` (adding the line ```PATH="$PATH:<path_to_the_clangd_directory>"``` to your bashrc). You can similarly add ```clang-tidy``` to add its functionality. (Note: the releases link will offer a link to a releases page in github).
+
+If clangd can't find headers, a possible solution is the following. Read the output of the command ```gcc --print-file-name=include``` and create the file ```~/.config/clangd/config.yaml```
+
+```yaml
+CompileFlags:
+  Add:
+    - -isystem<result of the command gcc --print-file-name=include>
+```
+
+This will let ```clangd``` know that that that path can be used to look for system headers
 
 2. ```pyright```
 
