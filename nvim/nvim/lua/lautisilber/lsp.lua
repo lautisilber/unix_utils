@@ -74,6 +74,25 @@ if vim.fn.executable("lua-language-server") == 1 then
     })
 end
 
+if vim.fn.executable("gopls") == 1 then
+    table.insert(servers, "gopls")
+    vim.lsp.config("gopls", {
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_markers = { "go.work", "go.mod", ".git" },
+        settings = {
+            gopls = {
+                analyses = {
+                    unusedparams = true,
+                    shadow = true,
+                },
+                staticcheck = true,
+                gofumpt = true, -- stricter formatting than gofmt
+            },
+        },
+    })
+end
+
 
 vim.lsp.enable(servers)
 
