@@ -19,7 +19,13 @@ To be able to use the live grep functionality of ```Telescope``` install ```ripg
 
 ## LSPs
 
-To install the LSPs do the following
+### Install using Mason
+
+You can use ```Mason``` to install any LSP you want. If you have any LSP already installed, ```clangd``` for example, you can use that instead of installing it via ```Mason```
+
+### Install manually
+
+To install the LSPs manually do the following
 
 1. ```clangd``` and optional ```clang-tidy```
 
