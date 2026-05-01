@@ -14,8 +14,8 @@ return {
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
     keys = {
-        { "<leader>tf", ":Telescope find_files<CR>", mode = "n", noremap = true, silent = true },
-        { "<leader>tg", ":Telescope live_grep<CR>", mode = "n", noremap = true, silent = true },
+        { "<leader>tf", ":Telescope find_files<CR>", mode = "n", noremap = true, silent = true, desc = "Open Telescope in find files mode" },
+        { "<leader>tg", ":Telescope live_grep<CR>", mode = "n", noremap = true, silent = true, desc = "Open Telescope in live grep mode" },
         -- { "<C-tb>", ":Telescope buffers<CR>", mode = "n", noremap = true, silent = true },
     },
 }
