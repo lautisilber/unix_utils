@@ -1,12 +1,5 @@
 require("lautisilber.utils")
 
--- add node to nvim path
-local node = vim.fn.trim(vim.fn.system("which node"))
-if node ~= "" then
-    local node_bin = vim.fn.trim(vim.fn.system("dirname " .. node))
-    vim.env.PATH = node_bin .. ":" .. vim.env.PATH
-end
-
 local servers = {}
 
 if vim.fn.executable("clangd") == 1 then
@@ -54,6 +47,33 @@ if vim.fn.executable("bash-language-server") == 1 then
         }
     })
 end
+
+if vim.fn.executable("lua-language-server") == 1 then
+    table.insert(servers, "lua_ls")
+    vim.lsp.config("lua_ls", {
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        root_markers = { ".git", ".luarc.json", ".luarc.jsonc" },
+        settings = {
+            Lua = {
+                runtime = {
+                    version = "LuaJIT", -- Neovim uses LuaJIT
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true), -- makes it aware of Neovim's API and plugins
+                    checkThirdParty = false, -- stops it asking to configure third party libraries
+                },
+                diagnostics = {
+                    globals = { "vim" }, -- stops it complaining about the vim global
+                },
+                telemetry = {
+                    enable = false,
+                },
+            },
+        },
+    })
+end
+
 
 vim.lsp.enable(servers)
 
