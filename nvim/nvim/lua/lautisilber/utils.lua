@@ -58,7 +58,7 @@ function GetOS()
 
     osname = string.lower(osname)
     if osname == "osx" or osname == "macos" or osname == "darwin" then
-        return "osx"
+        return "macos"
     elseif string.find(osname, "linux") then
         return "linux"
     else

@@ -109,18 +109,18 @@ if vim.fn.executable("texlab") == 1 then
     table.insert(servers, "texlab")
 
     local pdf_open_cmd
-    local os = GetOS()
-    if os == "macos" then
-        pdf_open_cmd = "open"
-    elseif os == "linux" then
-        pdf_open_cmd = FindExecutable({ "okular", "zathura", "evince" })
-        if pdf_open_cmd == nil then
-            vim.notify("Couldn't find a pds viewer", vim.log.levels.WARN)
-        end
-    else
-        pdf_open_cmd = "start \"\""
-        vim.notify("Windows is not well supported", vim.loader.levels.WARN)
-    end
+    -- local os = GetOS()
+    -- if os == "macos" then
+    --     pdf_open_cmd = "open"
+    -- elseif os == "linux" then
+    --     pdf_open_cmd = FindExecutable({ "okular", "zathura", "evince" })
+    --     if pdf_open_cmd == nil then
+    --         vim.notify("Couldn't find a pds viewer", vim.log.levels.WARN)
+    --     end
+    -- else
+    --     pdf_open_cmd = "start \"\""
+    --     vim.notify("Windows is not well supported", vim.log.levels.WARN)
+    -- end
 
     vim.lsp.config("texlab", {
         cmd = { "texlab" },
