@@ -40,20 +40,28 @@ end
 --     return a
 -- end
 
--- Can return GNU/Linux, OSX or Windows
+-- Can return macos, linux, windows
 --@return str
 function GetOS()
+    local osname = ""
+
     -- ask LuaJIT first
     if jit then
-        return jit.os
+        osname = jit.os
+    else
+        -- Unix, Linux variants
+        local fh, _ = assert(io.popen("uname -o 2>/dev/null","r"))
+        if fh then
+            osname = fh:read()
+        end
     end
 
-    -- Unix, Linux variants
-    local osname
-    local fh, _ = assert(io.popen("uname -o 2>/dev/null","r"))
-    if fh then
-        osname = fh:read()
+    osname = string.lower(osname)
+    if osname == "osx" or osname == "macos" or osname == "darwin" then
+        return "osx"
+    elseif string.find(osname, "linux") then
+        return "linux"
+    else
+        return "windows"
     end
-
-    return osname or "Windows"
 end

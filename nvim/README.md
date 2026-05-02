@@ -28,7 +28,7 @@ You can use ```Mason``` to install any LSP you want. If you have any LSP already
 - ```bash-language-server``` for ```sh``` and ```bash``` (Recommended to also install ```shellcheck```)
 - ```lua-language-server``` for ```lua```
 - ```gopls``` for ```go```
-- ```texlab``` for ```tex``` and ```latex```
+- ```texlab``` for ```tex``` and ```latex```. To support tex build when saving the file, make sure you have ```latexmk``` and in your path (for example with ```sudo tlmgr install latexmk```
 
 ### Install manually
 
