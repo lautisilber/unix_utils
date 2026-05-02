@@ -11,7 +11,7 @@ local smart_debug_config = {
     name = "Debug (remember last executable)",
     program = function()
         if vim.g.dap_last_program and vim.fn.executable(vim.g.dap_last_program) == 1 then
-            local reuse = vim.fn.input("Use last program [" .. vim.g.dap_last_program .. "]? (y/n): ")
+            local reuse = vim.fn.input("Use last program [" .. vim.g.dap_last_program .. "]? ([y]/n): ")
             if reuse == "y" or reuse == "Y" or reuse == "" then
                 return vim.g.dap_last_program
             end
