@@ -5,7 +5,7 @@ vim.g.loaded_netrwPlugin = 1
 return {
     "nvim-tree/nvim-tree.lua",
     version = "*",
-    lazy = false,
+    lazy = true,
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
@@ -31,15 +31,6 @@ return {
             end,
         })
 
-        -- Open nvim-tree when starting with a directory
-        vim.api.nvim_create_autocmd("VimEnter", {
-            callback = function(event)
-                local stat = vim.uv.fs_stat(event.file)
-                if stat and stat.type == "directory" then
-                    require("nvim-tree.api").tree.open()
-                end
-            end,
-        })
     end,
     keys = {
         { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Open the nvim-tree file explorer" }
