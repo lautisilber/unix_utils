@@ -30,12 +30,30 @@ end
 --@param a any[] Array to append to
 --@param b any[]|nil Array of elems to append to a
 --@return any[]
-function TableInsertMultiple(a, b)
-    if b == nil then
-        return a
+-- function TableInsertMultiple(a, b)
+--     if b == nil then
+--         return a
+--     end
+--     for _, e in ipairs(b) do
+--         table.insert(a, e)
+--     end
+--     return a
+-- end
+
+-- Can return GNU/Linux, OSX or Windows
+--@return str
+function GetOS()
+    -- ask LuaJIT first
+    if jit then
+        return jit.os
     end
-    for _, e in ipairs(b) do
-        table.insert(a, e)
+
+    -- Unix, Linux variants
+    local osname
+    local fh, _ = assert(io.popen("uname -o 2>/dev/null","r"))
+    if fh then
+        osname = fh:read()
     end
-    return a
+
+    return osname or "Windows"
 end

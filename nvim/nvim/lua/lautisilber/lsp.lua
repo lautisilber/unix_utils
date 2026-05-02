@@ -1,7 +1,6 @@
 require("lautisilber.utils")
 
 local servers = {}
-local filetypes_with_lsp = {}
 
 local node = vim.fn.trim(vim.fn.system("which node"))
 if node ~= "" then
@@ -11,7 +10,6 @@ end
 
 if vim.fn.executable("clangd") == 1 then
     local filetypes = { "c", "cpp", "objc", "objcpp" }
-    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "clangd")
     vim.lsp.config("clangd", {
         filetypes = filetypes,
@@ -28,7 +26,6 @@ end
 
 if vim.fn.executable("pyright-langserver") == 1 then
     local filetypes = { "python" }
-    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "pyright")
     vim.lsp.config("pyright", {
         cmd = { "pyright-langserver", "--stdio" },
@@ -48,7 +45,6 @@ end
 
 if vim.fn.executable("bash-language-server") == 1 then
     local filetypes = { "sh", "bash" }
-    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "bashls")
     vim.lsp.config("bashls", {
         cmd = { "bash-language-server", "start" },
@@ -63,7 +59,6 @@ end
 
 if vim.fn.executable("lua-language-server") == 1 then
     local filetypes = { "lua" }
-    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "lua_ls")
     vim.lsp.config("lua_ls", {
         cmd = { "lua-language-server" },
@@ -91,7 +86,6 @@ end
 
 if vim.fn.executable("gopls") == 1 then
     local filetypes = { "go", "gomod", "gowork", "gotmpl" }
-    filetypes_with_lsp = TableInsertMultiple(filetypes_with_lsp, filetypes)
     table.insert(servers, "gopls")
     vim.lsp.config("gopls", {
         cmd = { "gopls" },
@@ -110,10 +104,47 @@ if vim.fn.executable("gopls") == 1 then
     })
 end
 
---@return string[]
-function EnabledLSPs()
-    return filetypes_with_lsp
+if vim.fn.executable("texlab") == 1 then
+    local filetypes = { "tex", "plaintex", "bib" }
+    table.insert(servers, "texlab")
+
+    local pdf_open_cmd
+    local os = GetOS()
+    if os == "OSX" or string.lower(os) == "maxos" or string.lower(os) == "darwin" then
+        pdf_open_cmd = "open"
+    elseif string.find(os, "Linux") then
+        pdf_open_cmd = FindExecutable({ "okular", "zathura", "evince" })
+        if pdf_open_cmd == nil then
+            vim.notify("Coudln't find a pds viewer!", vim.log.levels.WARN)
+        end
+    else
+        pdf_open_cmd = "start \"\""
+    end
+
+    vim.lsp.config("texlab", {
+        cmd = { "texlab" },
+        filetypes = filetypes,
+        root_markers = { ".git", "texlab.toml", ".texlabroot" },
+        settings = {
+            texlab = {
+                build = {
+                    executable = "latexmk",
+                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                    onSave = true, -- build on save
+                },
+                forwardSearch = pdf_open_cmd and {
+                    executable = pdf_open_cmd,
+                    args = { "%p" },
+                } or {},
+                chktex = {
+                    onEdit = false,
+                    onOpenAndSave = true, -- lint on save
+                },
+            },
+        },
+    })
 end
+
 
 vim.lsp.enable(servers)
 
@@ -166,8 +197,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
             return "<Esc>"
         end, "Dismiss code suggestions", { expr = true, buffer = event.buf })
+
     end,
 })
+
 
 vim.diagnostic.config({
     virtual_text = true,       -- shows error inline at end of line
