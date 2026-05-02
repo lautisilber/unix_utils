@@ -8,7 +8,7 @@ opt.list = true
 
 local space = "·"
 opt.listchars:append {
-tab = "» ",
+    tab = "» ",
     multispace = space,
     lead = space,
     trail = space,
