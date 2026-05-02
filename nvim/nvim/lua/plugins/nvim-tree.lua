@@ -33,7 +33,8 @@ return {
 
     end,
     keys = {
-        { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true, silent = true, desc = "Open the nvim-tree file explorer" }
+        { "<leader>f", ":NvimTreeToggle<CR>", mode = "n", noremap = true,
+            silent = true, desc = "Open the nvim-tree file explorer" }
     },
 }
 

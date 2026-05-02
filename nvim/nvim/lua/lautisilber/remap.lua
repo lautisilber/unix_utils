@@ -25,7 +25,8 @@ Map({"n", "v"}, "<leader>y", [["+y]], "yank to clipboard")
 Nmap("<leader>Y", [["+Y]], "yank to clipboard")
 
 -- search current word (where the cursor is) and replace
-Nmap("<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "search current word (where the cursor is) and replace")
+Nmap("<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    "search current word (where the cursor is) and replace")
 
 -- toggle comment
 Nmap("<leader>'", "gcc", "Toggle comment", { remap = true })
