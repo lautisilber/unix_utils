@@ -31,3 +31,9 @@ Nmap("<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 -- toggle comment
 Nmap("<leader>'", "gcc", "Toggle comment", { remap = true })
 Vmap("<leader>'", "gc", "Toggle comment", { remap = true })
+
+-- lazy.nvim
+Nmap("<leader>p", ":Lazy<CR>", "Open Lazy")
+
+-- mason
+Nmap("<leader>o", ":Mason<CR>", "Open Lazy")
