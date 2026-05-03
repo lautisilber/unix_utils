@@ -1,3 +1,5 @@
+-- for c, c++ and rust
+
 require("lautisilber.utils")
 
 local codelldb = FindExecutable({
@@ -28,6 +30,7 @@ if codelldb then
         configurations = {
             cpp = { smart_debug_config, },
             c = { smart_debug_config, },
+            rust = { smart_debug_config, },
         },
     })
 end

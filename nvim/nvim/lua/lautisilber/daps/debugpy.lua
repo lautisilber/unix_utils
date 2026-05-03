@@ -1,3 +1,5 @@
+-- for python
+
 require("lautisilber.utils")
 
 local debugpy = FindExecutable({

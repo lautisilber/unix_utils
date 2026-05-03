@@ -5,7 +5,7 @@ return {
             "rcarriga/nvim-dap-ui",
             "nvim-neotest/nvim-nio",
         },
-        ft = { "python", "cpp", "c" },
+        ft = { "python", "cpp", "c", "rust" },
         config = function()
             require("lautisilber.dap")
         end,
@@ -15,15 +15,15 @@ return {
         ft = "python",  -- lazy load for python files only
         dependencies = { "mfussenegger/nvim-dap" },
         config = function()
-            require("lautisilber.daps.python")
+            require("lautisilber.daps.debugpy")
         end,
     },
     {
         "julianolf/nvim-dap-lldb",
-        ft = { "c", "cpp" }, -- lazy load for c and cpp files only
+        ft = { "c", "cpp", "rust" }, -- lazy load for c and cpp files only
         dependencies = { "mfussenegger/nvim-dap" },
         config = function()
-            require("lautisilber.daps.cpp")
+            require("lautisilber.daps.lldb")
         end,
     },
 }

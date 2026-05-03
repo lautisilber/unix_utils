@@ -146,6 +146,28 @@ if vim.fn.executable("texlab") == 1 then
     })
 end
 
+if vim.fn.executable("rust-analyzer") == 1 then
+    table.insert(servers, "rust_analyzer")
+    vim.lsp.config("rust_analyzer", {
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust" },
+        root_markers = { "Cargo.toml", "Cargo.lock", ".git" },
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy", -- use clippy instead of check for better diagnostics
+                },
+                cargo = {
+                    allFeatures = true,
+                },
+                procMacro = {
+                    enable = true,
+                },
+            },
+        },
+    })
+end
+
 
 vim.lsp.enable(servers)
 
