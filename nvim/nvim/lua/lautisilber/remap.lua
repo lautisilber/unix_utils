@@ -28,6 +28,9 @@ Nmap("<leader>Y", [["+Y]], "yank to clipboard")
 Nmap("<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     "search current word (where the cursor is) and replace")
 
+-- make file executable
+Nmap("<leader>x", "<cmd>!chmod +x %<CR>", "Make file executable")
+
 -- toggle comment
 Nmap("<leader>'", "gcc", "Toggle comment", { remap = true })
 Vmap("<leader>'", "gc", "Toggle comment", { remap = true })
