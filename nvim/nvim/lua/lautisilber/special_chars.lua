@@ -7,7 +7,7 @@ local nvim_set_hl = api.nvim_set_hl
 opt.list = true
 
 local space = "·"
-opt.listchars:append {
+opt.listchars = {
     tab = "» ",
     multispace = space,
     lead = space,

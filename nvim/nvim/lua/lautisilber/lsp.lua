@@ -227,13 +227,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.diagnostic.config({
     virtual_text = true,       -- shows error inline at end of line
-    signs = true,              -- keeps the E on the gutter
+    virtual_lines = false,     -- text shows up underneath the line with virtual lines
+    update_in_insert = false,  -- only update diagnostics on InsertLeave (not in Insert)
+    -- update_in_insert = true,   -- don't show errors while typing
+    severity_sort = true,      -- sort diagnostics by severity
+    -- signs = true,              -- keeps the E on the gutter
     underline = true,          -- underlines the problematic code
-    update_in_insert = true,   -- don't show errors while typing
     float = {
         border = "rounded",
         source = true,         -- shows the language server that caused the error
     },
+    jump = { float = true }, -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
 })
 
 vim.o.completeopt = "menu,menuone,noinsert" -- noinsert prevents nvim from automatically inserting the first match

@@ -35,8 +35,22 @@ Nmap("<leader>x", "<cmd>!chmod +x %<CR>", "Make file executable")
 Nmap("<leader>'", "gcc", "Toggle comment", { remap = true })
 Vmap("<leader>'", "gc", "Toggle comment", { remap = true })
 
+-- Clear highlights on search when pressing <Esc> in normal mode
+--  See `:help hlsearch`
+Nmap("A<Esc>", "<cmd>nohlsearch<CR>", "Clear highlights on search when pressing <Esc>")
+
 -- lazy.nvim
 Nmap("<leader>p", ":Lazy<CR>", "Open Lazy")
 
 -- mason
 Nmap("<leader>o", ":Mason<CR>", "Open Lazy")
+
+-- autocmd
+
+-- Highlight when yanking (copying) text
+--  See `:help vim.hl.on_yank()`
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+    callback = function() vim.hl.on_yank() end,
+})

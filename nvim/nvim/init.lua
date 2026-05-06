@@ -6,4 +6,3 @@ require("config.lazy")
 -- run after
 require("lautisilber.after")
 
-
