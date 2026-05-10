@@ -13,6 +13,10 @@ make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$HOME/local/nvim"
 make install
 ```
 
+## treesitter
+
+You can manually install ```treesitter``` to add better highlighting functionality for different languages. To do that visit the [repo](https://github.com/tree-sitter/tree-sitter) and follow the installation instructions (or more specifically [here](https://github.com/tree-sitter/tree-sitter/blob/master/crates/cli/README.md). neovim >= 0.12 comes with treesitter bundled, but for languages not bundled, install tree-sitter-cli and run ```:TSInstall <lang>```
+
 ## Telescope
 
 To be able to use the live grep functionality of ```Telescope``` install ```ripgrep``` on your system. Installation instructions can be found [here](https://github.com/BurntSushi/ripgrep#installation)

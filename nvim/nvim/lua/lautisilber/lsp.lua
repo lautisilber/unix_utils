@@ -181,7 +181,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         Nmap("gr", vim.lsp.buf.references, "Go to References")
         Nmap("K", vim.lsp.buf.hover, "Hover Docs")
         Nmap("ge", open_float, "Show diagnostic information")
-        Nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
+        Nmap("<leader>gn", vim.lsp.buf.rename, "Rename")
         --Nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
 
 

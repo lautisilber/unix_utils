@@ -37,7 +37,7 @@ Vmap("<leader>'", "gc", "Toggle comment", { remap = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
-Nmap("A<Esc>", "<cmd>nohlsearch<CR>", "Clear highlights on search when pressing <Esc>")
+Nmap("<Esc>", "<cmd>nohlsearch<CR>", "Clear highlights on search when pressing <Esc>")
 
 -- lazy.nvim
 Nmap("<leader>p", ":Lazy<CR>", "Open Lazy")

@@ -1,8 +1,8 @@
---@param mode string|string[]
---@param new_cmd string
---@param old_cmd string|func()
---@param desc string
---@param extra_opts vim.keymap.set.Opts?
+---@param mode string|string[]
+---@param new_cmd string
+---@param old_cmd string|func()
+---@param desc string
+---@param extra_opts vim.keymap.set.Opts?
 function Map(mode, new_cmd, old_cmd, desc, extra_opts)
     local extra = extra_opts or {}
     local opts = { noremap = true, silent = true, desc = desc }
@@ -10,26 +10,26 @@ function Map(mode, new_cmd, old_cmd, desc, extra_opts)
     vim.keymap.set(mode, new_cmd, old_cmd, opts)
 end
 
---@param new_cmd string
---@param old_cmd string|func()
---@param desc string
---@param extra_opts vim.keymap.set.Opts?
+---@param new_cmd string
+---@param old_cmd string|fun()
+---@param desc string
+---@param extra_opts vim.keymap.set.Opts?
 function Nmap(new_cmd, old_cmd, desc, extra_opts)
     Map("n", new_cmd, old_cmd, desc, extra_opts)
 end
 
---@param new_cmd string
---@param old_cmd string|func()
---@param desc string
---@param extra_opts vim.keymap.set.Opts?
+---@param new_cmd string
+---@param old_cmd string|fun()
+---@param desc string
+---@param extra_opts vim.keymap.set.Opts?
 function Vmap(new_cmd, old_cmd, desc, extra_opts)
     Map("v", new_cmd, old_cmd, desc, extra_opts)
 end
 
---@param new_cmd string
---@param old_cmd string|func()
---@param desc string
---@param extra_opts vim.keymap.set.Opts?
+---@param new_cmd string
+---@param old_cmd string|fun()
+---@param desc string
+---@param extra_opts vim.keymap.set.Opts?
 function Imap(new_cmd, old_cmd, desc, extra_opts)
     Map("i", new_cmd, old_cmd, desc, extra_opts)
 end
@@ -43,22 +43,9 @@ function FindExecutable(paths)
     return nil
 end
 
--- Appends multiple elements to an array
---@param a any[] Array to append to
---@param b any[]? Array of elems to append to a
---@return any[]
--- function TableInsertMultiple(a, b)
---     if b == nil then
---         return a
---     end
---     for _, e in ipairs(b) do
---         table.insert(a, e)
---     end
---     return a
--- end
 
--- Can return macos, linux, windows
---@return str
+---Can return macos, linux, windows
+---@return string
 function GetOS()
     local osname = ""
 
@@ -83,10 +70,10 @@ function GetOS()
     end
 end
 
--- Returns true if val is contained in arr, false otherwise
---@param arr any[]
---@param val any
---@return boolean
+---Returns true if val is contained in arr, false otherwise
+---@param arr any[]
+---@param val any
+---@return boolean
 function ArrayContains(arr, val)
     for _, v in ipairs(arr) do
         if v == val then
@@ -96,10 +83,44 @@ function ArrayContains(arr, val)
     return false
 end
 
--- Runs a command
---@param cmd string[]
---@param on_error fun(vim.SystemCompleted)?
---@return vim.SystemCompleted
+
+---Makes sure the directory exists
+---@param dir string
+---@param err_prefix string?
+---@return boolean
+function EnsureDirectorySync(dir, err_prefix)
+    local prefix = (err_prefix ~= nil and (err_prefix .. ": ") or "")
+
+    local stat, stat_err = vim.uv.fs_stat(dir)
+    if stat then
+        if stat.type == "directory" then
+            return true
+        else
+            vim.notify(prefix .. "Path '" .. dir .. "' exists but is not a directory", vim.log.levels.ERROR)
+            return false
+        end
+    elseif stat_err and not stat_err:find("ENOENT") then
+        vim.notify(prefix .. "Couldn't check directory '" .. dir .. "' with error: " .. stat_err, vim.log.levels.ERROR)
+        return false
+    end
+
+    -- directory doesn't exist, create it
+    local mkdir_success, mkdir_err = vim.uv.fs_mkdir(dir, tonumber("755", 8)) -- 493 = 0755
+    if not mkdir_success then
+        if mkdir_err and mkdir_err:find("EEXIST") then
+            return true -- race condition, already created
+        end
+        vim.notify(prefix .. "Couldn't create directory '" .. dir .. "' with error: " .. (mkdir_err or "unknown"), vim.log.levels.ERROR)
+        return false
+    end
+
+    return true
+end
+
+---Runs a command
+---@param cmd string[]
+---@param on_error fun(vim.SystemCompleted)?
+----@return vim.SystemCompleted
 function RunCmdSync(cmd, on_error)
     local res = vim.system(cmd, { text = true }):wait()
     if on_error ~= nil and res.code ~= 0 then
@@ -108,15 +129,15 @@ function RunCmdSync(cmd, on_error)
     return res
 end
 
--- Gets the basename of a path
---@param path string
---@return string
+---Gets the basename of a path
+----@param path string
+----@return string
 function GetBasename(path)
-    return path:match("^.+/(.+)$")
+    return vim.fn.fnamemodify(path, ":t")
 end
 
--- Get the system's c++ compiler. Returns its path
---@return string?
+---Get the system's c++ compiler. Returns its path
+----@return string?
 function GetCppCompilerPath()
     local os = GetOS()
 
@@ -141,8 +162,8 @@ function GetCppCompilerPath()
     end
 end
 
--- Get the system's c++ compiler. Returns its path
---@return string?
+---Get the system's c++ compiler. Returns its path
+---@return string?
 function GetCCompilerPath()
     local os = GetOS()
 
