@@ -53,3 +53,11 @@ vim.o.cursorline = true
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- fold code
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldenable = false      -- don't fold on file open
+vim.opt.foldlevel = 99          -- start with everything unfolded
+-- vim.opt.fillchars = { fold = " ", foldopen = "▾", foldclose = "▸" }
+-- vim.opt.foldtext = ""
