@@ -168,6 +168,36 @@ if vim.fn.executable("rust-analyzer") == 1 then
     })
 end
 
+if vim.fn.executable("superhtml") == 1 then
+    table.insert(servers, "superhtml")
+    vim.lsp.config("superhtml", {
+        cmd = { "superhtml", "lsp" },
+        filetypes = { "html" },
+        root_markers = { ".git" },
+    })
+end
+
+if vim.fn.executable("jinja-lsp") == 1 then
+    table.insert(servers, "jinja-lsp")
+    vim.lsp.config("jinja-lsp", {
+        cmd = { "jinja-lsp" },
+        filetypes = { "html", "htmldjango", "jinja" },
+        root_markers = { ".git" },
+    })
+end
+
+if vim.fn.executable("emmet-ls") == 1 then
+    table.insert(servers, "emmet_language_server")
+    vim.lsp.config("emmet_language_server", {
+        cmd = { "emmet-ls", "--stdio" },
+        filetypes = {
+            "html", "css", "scss", "sass", "less",
+            "javascriptreact", "typescriptreact",
+            "htmldjango",
+        },
+        root_markers = { ".git" },
+    })
+end
 
 vim.lsp.enable(servers)
 
