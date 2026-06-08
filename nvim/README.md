@@ -28,7 +28,7 @@ To be able to use the live grep functionality of ```Telescope``` install ```ripg
 You can use ```Mason``` to install any LSP you want. If you have any LSP already installed, ```clangd``` for example, you can use that instead of installing it via ```Mason```. Here's a list of all the currently supported LSPs
 
 - ```clangd``` for ```c```, ```cpp```, ```Objective-C``` and ```Objective-C++```
-- ```pyright``` for ```python```
+- ```basedpyright``` for ```python```
 - ```bash-language-server``` for ```sh``` and ```bash``` (Recommended to also install ```shellcheck```)
 - ```lua-language-server``` for ```lua```
 - ```gopls``` for ```go```

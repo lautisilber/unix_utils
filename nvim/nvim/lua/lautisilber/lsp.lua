@@ -24,16 +24,15 @@ if vim.fn.executable("clangd") == 1 then
     })
 end
 
-if vim.fn.executable("pyright-langserver") == 1 then
-    local filetypes = { "python" }
-    table.insert(servers, "pyright")
-    vim.lsp.config("pyright", {
-        cmd = { "pyright-langserver", "--stdio" },
-        filetypes = filetypes,
+if vim.fn.executable("basedpyright") == 1 then
+    table.insert(servers, "basedpyright")
+    vim.lsp.config("basedpyright", {
+        cmd = { "basedpyright-langserver", "--stdio" },
+        filetypes = { "python" },
         settings = {
             python = {
                 analysis = {
-                    typeCheckingMode = "strict",   -- "off", "basic", or "strict"
+                    typeCheckingMode = "basic",   -- "off", "basic", or "strict"
                     autoSearchPaths = true,        -- search for packages in the workspace. Could add noticeable overhead
                     useLibraryCodeForTypes = true, -- infer types from library code
                     autoImportCompletions = true,  -- suggest auto imports
