@@ -34,6 +34,9 @@ You can use ```Mason``` to install any LSP you want. If you have any LSP already
 - ```gopls``` for ```go```
 - ```texlab``` for ```tex``` and ```latex```. To support tex build when saving the file, make sure you have ```latexmk``` and in your path (for example with ```sudo tlmgr install latexmk```
 - ```rust-analyzer``` for ```rust```
+- ```superhtml``` for ```html```
+- ```jinja-lsp``` for ```jinja``` templates
+- ```emmet-ls``` for ```emmet``` style completions
 
 ### Install manually
 
