@@ -98,6 +98,7 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "kill_on_str: pattern \"%s\" matched, killing pipeline\n", needle);
             fflush(stderr);
 
+            usleep(100000); // give downstream (e.g. tee) time to drain the pipe and flush before we kill it too
             // pid/pgid 0 => our own process group. In a normal shell
             // pipeline that group contains every command in the pipe.
             kill(0, SIGTERM);
