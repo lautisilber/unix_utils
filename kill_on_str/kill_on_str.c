@@ -31,7 +31,7 @@ static void usage(const char *prog) {
 int main(int argc, char *argv[]) {
     const char *prog = argv[0];
 
-    if (argc < 2 || argc > 3) {
+    if (argc != 2) {
         usage(prog);
         return 2;
     }
