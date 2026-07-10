@@ -32,8 +32,7 @@ Nmap("<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 Nmap("<leader>x", "<cmd>!chmod +x %<CR>", "Make file executable")
 
 -- toggle comment
-Nmap("<leader>'", "gcc", "Toggle comment", { remap = true })
-Vmap("<leader>'", "gc", "Toggle comment", { remap = true })
+Map({"n", "v"}, "<leader>'", "gc", "Toggle comment", { remap = true })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -43,7 +42,7 @@ Nmap("<Esc>", "<cmd>nohlsearch<CR>", "Clear highlights on search when pressing <
 Nmap("<leader>p", ":Lazy<CR>", "Open Lazy")
 
 -- mason
-Nmap("<leader>o", ":Mason<CR>", "Open Lazy")
+Nmap("<leader>o", ":Mason<CR>", "Open Mason")
 
 -- autocmd
 
